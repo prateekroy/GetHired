@@ -1,0 +1,7 @@
+Dear ${PERSON_NAME}, 
+
+	Please hire me! 
+
+Have a great weekend! 
+
+Yours Truly
