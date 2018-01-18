@@ -1,6 +1,6 @@
 Dear ${PERSON_NAME}, 
 
-	Please hire me! 
+	Please hire me ${COMPANY_NAME}! 
 
 Have a great weekend! 
 

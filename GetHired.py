@@ -10,6 +10,8 @@ from email.mime.text import MIMEText
 import io
 import shutil
 
+from cmpCSV import Recruiter, Contacts
+
 MY_ADDRESS = ''
 PASSWORD = ''
 ATTACHMENT = ['Prateek_Roy.pdf']
@@ -63,8 +65,35 @@ def send_mail(send_from, send_to, subject, text, smtp, files=None):
     smtp.sendmail(send_from, send_to, msg.as_string())
 
 
-def main():
-    names, emails = get_contacts('mycontacts.txt') # read contacts
+# def run_txt_version():
+#     names, emails = get_contacts('mycontacts.txt') # read contacts
+#     message_template = read_template('message.txt')
+
+#     # set up the SMTP server
+#     s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+#     s.starttls()
+#     s.login(MY_ADDRESS, PASSWORD)
+
+#     # For each contact, send the email:
+#     for name, email in zip(names, emails):
+#         msg = MIMEMultipart()       # create a message
+
+#         # add in the actual person name to the message template
+#         message = message_template.substitute(PERSON_NAME=name.title())
+
+#         # Prints out the message body for our sake
+#         print(message)
+
+#         send_mail(MY_ADDRESS, email, SUBJECT, message, s, ATTACHMENT)
+
+#         del msg
+        
+#     # Terminate the SMTP session and close the connection
+#     s.quit()
+
+def run_excel_version():
+    contacts = Contacts() # read contacts
+    recruiters = contacts.readfiles()
     message_template = read_template('message.txt')
 
     # set up the SMTP server
@@ -72,22 +101,48 @@ def main():
     s.starttls()
     s.login(MY_ADDRESS, PASSWORD)
 
-    # For each contact, send the email:
-    for name, email in zip(names, emails):
+    for recruiter in recruiters:
+        print recruiter.emailid
         msg = MIMEMultipart()       # create a message
 
         # add in the actual person name to the message template
-        message = message_template.substitute(PERSON_NAME=name.title())
+        message = message_template.substitute(PERSON_NAME=recruiter.firstname)
 
         # Prints out the message body for our sake
         print(message)
 
-        send_mail(MY_ADDRESS, email, SUBJECT, message, s, ATTACHMENT)
+        send_mail(MY_ADDRESS, recruiter.emailid, SUBJECT, message, s, ATTACHMENT)
 
         del msg
         
     # Terminate the SMTP session and close the connection
-    s.quit()
-    
+    s.quit() 
+
+def run_test_version():
+    contacts = Contacts() # read contacts
+    recruiters = contacts.readfiles()
+    message_template = read_template('message.txt')
+
+    # set up the SMTP server
+    s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    s.starttls()
+    s.login(MY_ADDRESS, PASSWORD)
+
+    for recruiter in recruiters:
+        print recruiter.emailid
+        msg = MIMEMultipart()       # create a message
+
+        # add in the actual person name to the message template
+        message = message_template.substitute(PERSON_NAME=recruiter.firstname, COMPANY_NAME=recruiter.org)
+
+        # Prints out the message body for our sake
+        print(message)
+
+        del msg
+        
+    # Terminate the SMTP session and close the connection
+    s.quit() 
+
+
 if __name__ == '__main__':
-    main()
+    run_test_version()
