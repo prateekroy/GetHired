@@ -23,11 +23,8 @@ class Contacts:
         # print(fileNameList)
         for filename in fileNameList:
             with io.open(filename, 'rU', encoding='utf-8') as clist:
-                lc=1
+                next(clist)
                 for line in clist:
-                    if lc:
-                        lc-=1
-                        continue
                     contact = re.findall(r'^(.*),"\d.*',line)[-1]
                     if not contact in self.cstack:
                         rec=Recruiter(contact)
