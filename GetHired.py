@@ -106,7 +106,7 @@ def run_excel_version():
         msg = MIMEMultipart()       # create a message
 
         # add in the actual person name to the message template
-        message = message_template.substitute(PERSON_NAME=recruiter.firstname)
+        message = message_template.substitute(PERSON_NAME=recruiter.firstname, COMPANY_NAME=recruiter.org)
 
         # Prints out the message body for our sake
         print(message)
